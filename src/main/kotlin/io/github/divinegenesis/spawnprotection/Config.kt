@@ -1,10 +1,11 @@
+package io.github.divinegenesis.spawnprotection
+
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
-import org.spongepowered.configurate.objectmapping.meta.Comment
 import org.spongepowered.configurate.objectmapping.meta.Setting
 
 @ConfigSerializable
 class Config {
-    @Setting("Modules")
+    @Setting("io.github.divinegenesis.spawnprotection.Modules")
     val modules: Modules = Modules()
 }
 

@@ -1,6 +1,7 @@
 import org.apache.logging.log4j.Logger
 import com.google.inject.Inject
 import io.github.divinegenesis.spawnprotection.Commands
+import io.github.divinegenesis.spawnprotection.Config
 import io.github.divinegenesis.spawnprotection.EventListener
 import net.kyori.adventure.text.Component
 import org.apache.logging.log4j.LogManager
