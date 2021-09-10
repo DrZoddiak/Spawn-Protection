@@ -29,7 +29,7 @@ class EventListener {
         val globalData = SubjectData.GLOBAL_CONTEXT
 
         //For debugging purposes
-        subjectData.setOption(globalData, optionKey, "10")
+        //subjectData.setOption(globalData, optionKey, "10")
 
         val time = subjectData.options(globalData)[optionKey]
         if (time.isNullOrEmpty() || time == "0") {
