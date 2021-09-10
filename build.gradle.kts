@@ -25,12 +25,11 @@ sponge {
         description("Grants users spawn protection when they respawn!")
         version("0.1.0")
         links {
-            homepage("https://github.com/DivineGenesis/SpawnProtection")
-            source("https://github.com/DivineGenesis/SpawnProtection")
-            issues("https://github.com/DivineGenesis/SpawnProtection/issues")
+            source("https://github.com/DrZoddiak/Spawn-Protection")
+            issues("https://github.com/DrZoddiak/Spawn-Protection/issues")
         }
         contributor("DrZodd") {
-            description("Dev")
+            description("Lead Developer")
         }
         dependency("spongeapi") {
             loadOrder(PluginDependency.LoadOrder.AFTER)
