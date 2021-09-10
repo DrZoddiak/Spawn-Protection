@@ -2,7 +2,6 @@ package io.github.divinegenesis.spawnprotection
 
 
 import net.kyori.adventure.text.Component
-import not
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.command.Command.*
 import org.spongepowered.api.command.CommandResult
@@ -40,7 +39,7 @@ class Commands {
         val paginationService = Sponge.serviceProvider().paginationService()
 
         return paginationService.builder()
-            .title(!"SpawnProtection")
+            .title(!"io.github.divinegenesis.spawnprotection.SpawnProtection")
             .padding((!"="))
             .contents(component)
             .build()

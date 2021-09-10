@@ -6,7 +6,7 @@ plugins {
     id("org.spongepowered.gradle.plugin") version "2.0.0"
 }
 
-project.group = "dev.divinegenesis"
+project.group = "io.github.divinegenesis"
 
 repositories {
     mavenCentral()
@@ -23,6 +23,7 @@ sponge {
         displayName("SpawnProtection")
         entrypoint("io.github.divinegenesis.spawnprotection.SpawnProtection")
         description("Grants users spawn protection when they respawn!")
+        version("0.1.0")
         links {
             homepage("https://github.com/DivineGenesis/SpawnProtection")
             source("https://github.com/DivineGenesis/SpawnProtection")
@@ -34,6 +35,11 @@ sponge {
         dependency("spongeapi") {
             loadOrder(PluginDependency.LoadOrder.AFTER)
             optional(false)
+        }
+        dependency("spotlin") {
+            loadOrder(PluginDependency.LoadOrder.AFTER)
+            optional(false)
+            version("0.3.0")
         }
     }
 }

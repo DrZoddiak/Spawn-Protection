@@ -1,8 +1,7 @@
+package io.github.divinegenesis.spawnprotection
+
 import org.apache.logging.log4j.Logger
 import com.google.inject.Inject
-import io.github.divinegenesis.spawnprotection.Commands
-import io.github.divinegenesis.spawnprotection.Config
-import io.github.divinegenesis.spawnprotection.EventListener
 import net.kyori.adventure.text.Component
 import org.apache.logging.log4j.LogManager
 import org.spongepowered.api.Engine
@@ -21,7 +20,7 @@ import org.spongepowered.plugin.builtin.jvm.Plugin
 import java.nio.file.Path
 
 @Suppress("UNUSED_PARAMETER")
-@Plugin("SpawnProtection")
+@Plugin("spawnprotection")
 class SpawnProtection @Inject internal constructor(
     private val container: PluginContainer,
     @DefaultConfig(sharedRoot = false) val reference: ConfigurationReference<CommentedConfigurationNode>,
@@ -41,7 +40,7 @@ class SpawnProtection @Inject internal constructor(
         config = reference.referenceTo(Config::class.java)
         Companion.configDir = configDir
 
-        logger.info("SpawnProtection constructing..")
+        logger.info("Spawn-Protection constructing..")
         try {
             this.reference.save()
         } catch (e: ConfigurateException) {
