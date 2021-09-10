@@ -26,7 +26,7 @@ class Commands {
         if (sender is ServerPlayer) {
             paginationBuilder(
                 !"""
-                Help!
+                
                 """.trimIndent()
             ).sendTo(sender)
         } else {
@@ -39,7 +39,7 @@ class Commands {
         val paginationService = Sponge.serviceProvider().paginationService()
 
         return paginationService.builder()
-            .title(!"io.github.divinegenesis.spawnprotection.SpawnProtection")
+            .title(!"SpawnProtection")
             .padding((!"="))
             .contents(component)
             .build()

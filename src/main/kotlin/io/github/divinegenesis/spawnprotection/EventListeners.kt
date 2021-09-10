@@ -1,63 +1,52 @@
 package io.github.divinegenesis.spawnprotection
 
+import net.kyori.adventure.text.format.NamedTextColor
 import org.spongepowered.api.Sponge
 import org.spongepowered.api.data.Keys
 import org.spongepowered.api.entity.living.player.server.ServerPlayer
 import org.spongepowered.api.event.Listener
-import org.spongepowered.api.event.entity.DamageEntityEvent
 import org.spongepowered.api.event.entity.living.player.RespawnPlayerEvent
-import org.spongepowered.api.event.filter.cause.First
+import org.spongepowered.api.event.network.ServerSideConnectionEvent
 import org.spongepowered.api.scheduler.Task
 import org.spongepowered.api.service.permission.SubjectData
 import java.util.concurrent.TimeUnit
 
-
 class EventListener {
+    private val optionKey = "protect-time"
+
     @Listener
     fun onRespawn(event: RespawnPlayerEvent.Post) {
-        //If recreation wasn't because of death return
-        val player = event.entity()
+        spawnProtection(event.entity())
+    }
 
-        player.offer(Keys.INVULNERABLE, true)
+    @Listener
+    fun onSpawn(event: ServerSideConnectionEvent.Join) {
+        spawnProtection(event.player())
+    }
 
-        val globalData = SubjectData.GLOBAL_CONTEXT
+    private fun spawnProtection(player: ServerPlayer) {
         val subjectData = player.subjectData()
-        val optionKey = "protect-time"
+        val globalData = SubjectData.GLOBAL_CONTEXT
 
-        /*
-        lp user asexualdinosaur meta set protect-time 10
-         */
-
-
-        //Temporary, luckperms would set this
+        //For debugging purposes
         subjectData.setOption(globalData, optionKey, "10")
 
-        //We know it's there for now
-        val time = subjectData.options(globalData)[optionKey]!!.toLong()
-        var timer = time
+        val time = subjectData.options(globalData)[optionKey]
+        if (time.isNullOrEmpty() || time == "0") {
+            return
+        }
+        player.offer(Keys.INVULNERABLE, true)
 
-        player.sendMessage(!"You have $time seconds of invulnerability")
+        player.sendMessage((!"You have $time seconds of invulnerability").color(NamedTextColor.GREEN))
 
-        //Create the task
+        //schedule the task
+        Sponge.asyncScheduler().submit(countDownTimer(player, time.toLong()))
+        Sponge.asyncScheduler().submit(protectionTimer(player, time.toLong()))
+    }
 
+    private fun protectionTimer(player: ServerPlayer, time: Long): Task {
 
-        val countDownTask =
-
-            Task.builder()
-            .interval(1, TimeUnit.SECONDS)
-            .name("${player.name()}-countdown")
-            .execute(Runnable {
-                if (timer <= 5) {
-                    player.sendMessage(!"$timer")
-                }
-                timer--
-            })
-            .plugin(SpawnProtection.plugin)
-            .build()
-
-
-
-        val spawnProtectionTask = Task.builder()
+        return Task.builder()
             .delay(time, TimeUnit.SECONDS)
             .name("${player.name()}-spawn-protection")
             .execute(Runnable {
@@ -70,8 +59,23 @@ class EventListener {
             })
             .plugin(SpawnProtection.plugin)
             .build()
-        //schedule the task
-        Sponge.asyncScheduler().submit(countDownTask)
-        Sponge.asyncScheduler().submit(spawnProtectionTask)
+    }
+
+    private fun countDownTimer(player: ServerPlayer, timer: Long): Task {
+        var timer = timer
+
+        return Task.builder()
+            .interval(1, TimeUnit.SECONDS)
+            .name("${player.name()}-countdown")
+            .execute(Runnable {
+                if (timer <= 5) {
+                    if (timer != 0L) { //Occasionally 0 would be sent to the player
+                        player.sendMessage((!"$timer").color(NamedTextColor.RED))
+                    }
+                }
+                timer--
+            })
+            .plugin(SpawnProtection.plugin)
+            .build()
     }
 }
