@@ -48,7 +48,7 @@ class EventListener {
 
         return Task.builder()
             .delay(time, TimeUnit.SECONDS)
-            .name("${player.name()}-spawn-protection")
+            .name("${player.uniqueId()}-spawn-protection")
             .execute(Runnable {
                 player.offer(Keys.INVULNERABLE, false)
                 Sponge.asyncScheduler().tasks(SpawnProtection.plugin).forEach { task ->
@@ -66,7 +66,7 @@ class EventListener {
 
         return Task.builder()
             .interval(1, TimeUnit.SECONDS)
-            .name("${player.name()}-countdown")
+            .name("${player.uniqueId()}-countdown")
             .execute(Runnable {
                 if (timer <= 5) {
                     if (timer != 0L) { //Occasionally 0 would be sent to the player
